@@ -1,0 +1,76 @@
+﻿@model Prueba_Tecnica_Coem.Models.Demandantes
+
+@{
+    ViewData["Title"] = "Registro Demandantes";
+    ViewData["HideNavbar"] = true;
+    Layout = "_Layout";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-5">Completa tu cuenta como <span class="text-primary">Demandante</span></h3>
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="IdUsuario" type="hidden" value="@ViewBag.IdUsuario" />
+                        <div class="row">
+                            <div class="col-xl-4 mb-3">
+                                <label asp-for="Nombres" class="control-label"></label>
+                                <input asp-for="Nombres" class="form-control" required />
+                                <span asp-validation-for="Nombres" class="text-danger"></span>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label asp-for="Apellidos" class="control-label"></label>
+                                <input asp-for="Apellidos" class="form-control" required />
+                                <span asp-validation-for="Apellidos" class="text-danger"></span>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label asp-for="FechaNacimiento" class="control-label">Fecha de nacimiento</label>
+                                <input type="date" asp-for="FechaNacimiento" class="form-control" required />
+                                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="Celular" class="control-label">Número de celular</label>
+                                <input asp-for="Celular" class="form-control" required />
+                                <span asp-validation-for="Celular" class="text-danger"></span>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="IdNivelEducativo" class="control-label">Nivel educativo</label>
+                                <select asp-for="IdNivelEducativo" class="form-control" asp-items="ViewBag.IdNivelEducativo" required>
+                                    <option value="" selected disabled hidden>Selecciona una opción</option>
+                                </select>
+                                <span asp-validation-for="IdNivelEducativo" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="Notas" class="control-label"></label>
+                                <textarea asp-for="Notas" class="form-control"></textarea>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="ExperienciaAnterior" class="control-label">Experiencia laboral anterior</label>
+                                <textarea asp-for="ExperienciaAnterior" class="form-control" required></textarea>
+                                <span asp-validation-for="ExperienciaAnterior" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Crear" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

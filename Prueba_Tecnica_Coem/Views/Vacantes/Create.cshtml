@@ -1,0 +1,40 @@
+﻿@model Prueba_Tecnica_Coem.Models.Vacantes
+
+@{
+    ViewData["Title"] = "Publicar empleos";
+    ViewData["MenuUsuario"] = true;
+    Layout = "_Layout";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Publicar nuevo empleo</h3>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="IdEmpleador" type="hidden" value="@ViewBag.IdEmpleador" />
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="control-label">Descripción del puesto</label>
+                            <textarea asp-for="Descripcion" class="form-control" required></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Requisitos" class="control-label"></label>
+                            <textarea asp-for="Requisitos" class="form-control" required></textarea>
+                            <span asp-validation-for="Requisitos" class="text-danger"></span>
+                        </div>                       
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Publicar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

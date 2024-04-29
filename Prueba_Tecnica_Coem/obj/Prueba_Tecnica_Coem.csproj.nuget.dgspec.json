@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj": {}
+    "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj": {
+    "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj",
+        "projectUniqueName": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj",
         "projectName": "Prueba_Tecnica_Coem",
-        "projectPath": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj",
+        "projectPath": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem.csproj",
         "packagesPath": "C:\\Users\\stivb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\obj\\",
+        "outputPath": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -48,6 +48,30 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

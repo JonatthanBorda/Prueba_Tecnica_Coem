@@ -1,0 +1,47 @@
+﻿@model Prueba_Tecnica_Coem.Models.Usuarios
+
+
+@{
+    ViewData["Title"] = "Registro";
+    ViewData["HideNavbar"] = true;
+    Layout = "_Layout";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Crea tu cuenta</h3>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="control-label">Correo electrónico</label>
+                            <input asp-for="Email" class="form-control" placeholder="ejemplo@dominio.com" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Clave" class="control-label">Contraseña</label>
+                            <input asp-for="Clave" class="form-control" placeholder="Contraseña" required />
+                            <span asp-validation-for="Clave" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="IdTipoUsuario" class="control-label">Tipo de usuario</label>
+                            <select asp-for="IdTipoUsuario" class="form-control" asp-items="ViewBag.IdTipoUsuario" required>
+                                <option value="" selected disabled hidden>Selecciona una opción</option>
+                            </select>
+                            <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Crear" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

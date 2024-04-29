@@ -1,0 +1,54 @@
+﻿@model Prueba_Tecnica_Coem.Models.Empleadores
+
+@{
+    ViewData["Title"] = "Registro Empleadores";
+    ViewData["HideNavbar"] = true;
+    Layout = "_Layout";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-5">Completa tu cuenta como <span class="text-primary">Empleador</span></h3>
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="IdUsuario" type="hidden" value="@ViewBag.IdUsuario" />
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="RazonSocial" class="control-label">Razón social</label>
+                                <input asp-for="RazonSocial" class="form-control" required />
+                                <span asp-validation-for="RazonSocial" class="text-danger"></span>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="Localizacion" class="control-label">Localización</label>
+                                <input asp-for="Localizacion" class="form-control" required />
+                                <span asp-validation-for="Localizacion" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="Industria" class="control-label"></label>
+                                <input asp-for="Industria" class="form-control" required />
+                                <span asp-validation-for="Industria" class="text-danger"></span>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label asp-for="NumeroEmpleados" class="control-label">Número de empleados</label>
+                                <input type="number" asp-for="NumeroEmpleados" class="form-control" required />
+                                <span asp-validation-for="NumeroEmpleados" class="text-danger"></span>
+                            </div>                       
+                        </div>
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Crear" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
