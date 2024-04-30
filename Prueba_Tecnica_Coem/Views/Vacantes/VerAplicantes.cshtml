@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Prueba_Tecnica_Coem.Models.Aplicaciones>
+
+@{
+    ViewData["Title"] = "Empleos";
+    ViewData["MenuUsuario"] = true;
+    Layout = "_Layout";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <h3>¡Bienvenido!</h3>
+        <div class="col-md-12 mt-4">
+            <div class="card shadow-lg">
+                <div class="card-body">                   
+                    <a asp-controller="Vacantes" asp-action="Index" class="btn btn-primary mb-4">Volver a vacantes</a>
+                    @if(Model.Any())
+                    {
+                        <p>Estas son las aplicaciones registradas en el empleo:</p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.IdDemandanteNavigation.Nombres)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IdDemandanteNavigation.Celular)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IdDemandanteNavigation.IdNivelEducativo)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FechaAplicacion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IdDemandanteNavigation.ExperienciaAnterior)</th>
+                                    <!-- Más campos según sea necesario -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var aplicacion in Model)
+                                {
+                                    <tr>
+                                        <td>@aplicacion.IdDemandanteNavigation.Nombres</td>
+                                        <td>@aplicacion.IdDemandanteNavigation.Celular</td>
+                                        <td>
+                                            @if (aplicacion.IdDemandanteNavigation.IdNivelEducativoNavigation != null)
+                                            {
+                                                @aplicacion.IdDemandanteNavigation.IdNivelEducativoNavigation.Nivel
+                                            }
+                                            else
+                                            {
+                                                <span>No especificado</span>
+                                            }
+                                        </td>
+                                        <td>@aplicacion.FechaAplicacion.ToString("dd/MM/yyyy")</td>
+                                        <td>@aplicacion.IdDemandanteNavigation.ExperienciaAnterior</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>Este empleo todavia no tiene aplicaciones.</p>
+                    }    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

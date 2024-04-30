@@ -3,29 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Prueba_Tecnica_Coem.Models;
+using static System.Net.Mime.MediaTypeNames;
+using static Prueba_Tecnica_Coem.Models.Enum;
 
 namespace Prueba_Tecnica_Coem.Controllers
 {
     public class DemandantesController : Controller
     {
         private readonly DbPortalCoemContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public DemandantesController(DbPortalCoemContext context)
+        public DemandantesController(DbPortalCoemContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
-        // GET: Demandantes
         public async Task<IActionResult> Index()
         {
-            var dbPortalCoemContext = _context.Vacantes
-                .Include(v => v.IdEmpleadorNavigation);
+            var demandanteId = await GetDemandanteIdAsync();
+            var vacantes = await _context.Vacantes
+                        .Include(v => v.IdEmpleadorNavigation)
+                        .Include(v => v.Aplicaciones)
+                        .ToListAsync();
 
-            return View(await dbPortalCoemContext.ToListAsync());
+            var viewModel = vacantes.Select(v => new DemandanteViewModel
+            {
+                Id = v.Id,
+                RazonSocial = v.IdEmpleadorNavigation.RazonSocial,
+                Descripcion = v.Descripcion,
+                Requisitos = v.Requisitos,
+                Industria = v.IdEmpleadorNavigation.Industria,
+                HaAplicado = v.Aplicaciones.Any(a => a.IdDemandante == demandanteId),
+                EstadoAplicacion = v.Aplicaciones
+                    .Where(a => a.IdDemandante == demandanteId)
+                    .Select(a => System.Enum.GetName(typeof(EstadosAplicacion), a.IdEstado))
+                    .FirstOrDefault() ?? "No Aplicada"
+            }).ToList();
+
+            return View(viewModel);
         }
 
         // GET: Demandantes/Details/5
@@ -56,6 +80,7 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // POST: Demandantes/Create
+        [Authorize(Roles = "Demandante")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,Nombres,Apellidos,FechaNacimiento,Celular,IdNivelEducativo,Notas,ExperienciaAnterior")] Demandantes demandante)
@@ -76,6 +101,7 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Demandantes/Edit/5
+        [Authorize(Roles = "Demandante")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,6 +122,7 @@ namespace Prueba_Tecnica_Coem.Controllers
         // POST: Demandantes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Demandante")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Nombres,Apellidos,FechaNacimiento,Celular,IdNivelEducativo,Notas,ExperienciaAnterior")] Demandantes demandante)
@@ -131,6 +158,7 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Demandantes/Delete/5
+        [Authorize(Roles = "Demandante")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,6 +179,7 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // POST: Demandantes/Delete/5
+        [Authorize(Roles = "Demandante")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -168,6 +197,24 @@ namespace Prueba_Tecnica_Coem.Controllers
         private bool DemandanteExists(int id)
         {
             return _context.Demandantes.Any(e => e.Id == id);
+        }
+
+        private async Task<int?> GetDemandanteIdAsync()
+        {
+            var userName = _userManager.GetUserName(User);
+            if (string.IsNullOrEmpty(userName))
+            {
+                return null;
+            }
+
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == userName);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            var demandante = await _context.Demandantes.FirstOrDefaultAsync(e => e.IdUsuario == usuario.Id);
+            return demandante?.Id;
         }
     }
 }

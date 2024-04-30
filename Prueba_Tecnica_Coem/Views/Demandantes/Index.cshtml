@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Prueba_Tecnica_Coem.Models.Vacantes>
+﻿@model IEnumerable<Prueba_Tecnica_Coem.Models.DemandanteViewModel>
 
 @{
     ViewData["Title"] = "Empleos";
@@ -16,13 +16,19 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.RazonSocial)
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.Descripcion)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Requisitos)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.IdEmpleadorNavigation)
+                                    @Html.DisplayNameFor(model => model.Industria)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoAplicacion)
                                 </th>
                                 <th></th>
                             </tr>
@@ -31,17 +37,39 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>@item.RazonSocial</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.Requisitos</td>
+                                    <td>@item.Industria</td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Requisitos)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.IdEmpleadorNavigation.Industria)
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Aplicar</a>
+                                        @if (!item.HaAplicado)
+                                        {
+                                            <a class="btn btn-outline-dark" asp-controller="Vacantes" asp-action="Aplicacion" asp-route-id="@item.Id">Aplicar</a>
+                                        }
+                                        else
+                                        {
+                                            var btnClass = "";
+                                            switch (item.EstadoAplicacion)
+                                            {
+                                                case "Enviada":
+                                                    btnClass = "btn-enviada";
+                                                    break;
+                                                case "Vista":
+                                                    btnClass = "btn-vista";
+                                                    break;
+                                                case "EnProceso":
+                                                    btnClass = "btn-enproceso";
+                                                    break;
+                                                case "Finalizada":
+                                                    btnClass = "btn-finalizada";
+                                                    break;
+                                                default:
+                                                    btnClass = "btn-outline-secondary"; // Un estilo por defecto para estados desconocidos
+                                                    break;
+                                            }
+
+                                            <button class="btn @btnClass" disabled>@item.EstadoAplicacion</button>
+                                        }
                                     </td>
                                 </tr>
                             }

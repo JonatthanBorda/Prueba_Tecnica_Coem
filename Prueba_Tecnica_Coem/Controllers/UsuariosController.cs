@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,7 +45,7 @@ namespace Prueba_Tecnica_Coem.Controllers
             {
                 //Se busca el usuario con las credenciales:
                 var usuarioEncontrado = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
-                
+
                 if (usuarioEncontrado != null)
                 {
                     //Se validan las credenciales de acceso:
@@ -75,6 +78,11 @@ namespace Prueba_Tecnica_Coem.Controllers
 
             TempData["result"] = JsonSerializer.Serialize(new Result { IsSuccess = false, Message = "Errores en la validacion del modelo." });
             return View("~/Views/Home/Login.cshtml", usuario);
+        }
+
+        public IActionResult AccesoDenegado()
+        {
+            return View();
         }
 
         // POST: Usuarios/logout
@@ -111,18 +119,24 @@ namespace Prueba_Tecnica_Coem.Controllers
 
                     if (result.Succeeded)
                     {
+                        //Se añaden roles basados en el tipo de usuario:
+                        string roleName = usuario.IdTipoUsuario == (int)TiposUsuario.Demandante ? "Demandante" : "Empleador";
+                        await _userManager.AddToRoleAsync(user, roleName);
+
+                        //Se agregan claims específicos:
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Role, roleName),
+                        };
+
+                        await _userManager.AddClaimsAsync(user, claims);
                         _context.Add(usuario);
                         int idUsuario = await _context.SaveChangesAsync();
 
                         //Redireccionar al controlador correspondiente dependiendo del tipo de usuario:
-                        if (usuario.IdTipoUsuario == (int)TiposUsuario.Demandante)
-                        {
-                            return RedirectToAction("Create", "Demandantes", new { userId = usuario.Id });
-                        }
-                        else
-                        {
-                            return RedirectToAction("Create", "Empleadores", new { userId = usuario.Id });
-                        }
+                        return usuario.IdTipoUsuario == (int)TiposUsuario.Demandante
+                        ? RedirectToAction("Create", "Demandantes", new { userId = usuario.Id })
+                        : RedirectToAction("Create", "Empleadores", new { userId = usuario.Id });
                     }
                     else
                     {

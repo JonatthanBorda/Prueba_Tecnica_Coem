@@ -8,5 +8,20 @@
             Empleador
         }
 
+        public enum EstadosAplicacion
+        {
+            Enviada = 1,
+            Vista,
+            EnProceso,
+            Finalizada
+        }
+
+        public enum NivelEducativo
+        {
+            SinEstudiosFormales = 1,
+            Primaria_Bachillerato,
+            Profesional_Técnico_Tecnólogo,
+            Pregrado
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,22 +37,27 @@
             }   
             else
             {
-                //Perfil Usuario:
-                <div class="col-md-4 col-lg-3">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="fa-solid fa-user-check fa-2x me-2 text-success"></i>
-                        <div>
-                            <div><a href="#" class="fw-bold text-primary text-decoration-none">@User.Identity.Name </a></div>
-                            <div><small>Empleador / Demandante</small></div>
-                            <div class="text-left">
-                                <form asp-action="Logout" asp-controller="Usuarios" method="post">
-                                    <button type="submit" class="btn btn-link text-primary text-decoration-none p-0">Cerrar sesión</button>
-                                </form>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    var rol = User.FindFirst(ClaimTypes.Role)?.Value;
+
+                    //Perfil Usuario:
+                    <div class="col-md-4 col-lg-3">
+                        <div class="d-inline-flex align-items-center">
+                            <i class="fa-solid fa-user-check fa-2x me-2 text-success"></i>
+                            <div>
+                                <div><a href="#" class="fw-bold text-primary text-decoration-none">@User.Identity.Name </a></div>
+                                <div><small>@rol</small></div>
+                                <div class="text-left">
+                                    <form asp-action="Logout" asp-controller="Usuarios" method="post">
+                                        <button type="submit" class="btn btn-link text-primary text-decoration-none p-0">Cerrar sesión</button>
+                                    </form>
+                                </div>
+
                             </div>
-                            
                         </div>
                     </div>
-                </div>
+                }    
             }
         </div>
         

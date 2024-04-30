@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Acceso Denegado";
+    ViewData["MenuUsuario"] = true;
+    Layout = "_Layout";
+}
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h1 class="display-4"><i class="fas fa-ban text-danger"></i> Acceso Denegado</h1>
+                    <p class="lead">No tienes permiso para acceder a esta página.</p>
+                    <hr>
+                    <p>Es posible que no tengas los permisos adecuados para ver el contenido solicitado, o la página requiere privilegios de acceso superiores.</p>
+                    <a href="/" class="btn btn-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

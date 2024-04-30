@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Prueba_Tecnica_Coem.Models;
+using static Prueba_Tecnica_Coem.Models.Enum;
 
 namespace Prueba_Tecnica_Coem.Controllers
 {
@@ -25,17 +26,44 @@ namespace Prueba_Tecnica_Coem.Controllers
             _userManager = userManager;
         }
 
-        // GET: Vacantes
+        [Authorize(Roles = "Empleador")]
         public async Task<IActionResult> Index()
         {
             var empleadorId = await GetEmpleadorIdAsync();
 
-            //Se filtra las vacantes para obtener solo aquellas que pertenecen al empleador actual:
-            var dbPortalCoemContext = _context.Vacantes
-                .Include(v => v.IdEmpleadorNavigation)
-                .Where(v => v.IdEmpleador == empleadorId);
+            if (empleadorId == null)
+            {
+                return View(new List<VacanteViewModel>());
+            }
 
-            return View(await dbPortalCoemContext.ToListAsync());
+            var vacantes = await _context.Vacantes
+                .Include(v => v.IdEmpleadorNavigation)
+                .Where(v => v.IdEmpleador == empleadorId)
+                .Select(v => new VacanteViewModel
+                {
+                    Id = v.Id,
+                    Descripcion = v.Descripcion,
+                    Requisitos = v.Requisitos,
+                    Industria = v.IdEmpleadorNavigation.Industria,
+                    NumeroDeAplicaciones = v.Aplicaciones.Count
+                })
+                .ToListAsync();
+
+            return View(vacantes);
+        }
+
+        [Authorize(Roles = "Empleador")]
+        public async Task<IActionResult> VerAplicantes(int id)
+        {
+            // Buscar todas las aplicaciones para la vacante especificada
+            var aplicaciones = await _context.Aplicaciones
+                .Include(a => a.IdDemandanteNavigation)
+                .Include(a => a.IdDemandanteNavigation.IdNivelEducativoNavigation)
+                .Where(a => a.IdVacante == id)
+                .ToListAsync();
+
+            // Opcionalmente, puedes transformar estas aplicaciones en un ViewModel si es necesario
+            return View(aplicaciones); // Envía los datos a una vista que mostrará los demandantes
         }
 
         // GET: Vacantes/Details/5
@@ -57,6 +85,25 @@ namespace Prueba_Tecnica_Coem.Controllers
             return View(vacantes);
         }
 
+        // GET: Vacantes/Details/5
+        [Authorize(Roles = "Demandante")]
+        public async Task<IActionResult> Aplicacion(int id)
+        {
+            Aplicaciones aplicacion = new()
+            {
+                IdVacante = id,
+                IdDemandante = (int)await GetDemandanteIdAsync(),
+                IdEstado = (int)EstadosAplicacion.Enviada
+            };
+
+            _context.Aplicaciones.Add(aplicacion);
+            await _context.SaveChangesAsync();
+
+            TempData["result"] = JsonSerializer.Serialize(new Result { IsSuccess = true, Message = "Has aplicado correctamente a este empleo." });
+            return RedirectToAction("Index", "Demandantes");
+        }
+
+
         // GET: Vacantes/Create
         public async Task<IActionResult> Create()
         {
@@ -68,6 +115,7 @@ namespace Prueba_Tecnica_Coem.Controllers
 
 
         // POST: Vacantes/Create
+        [Authorize(Roles = "Empleador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdEmpleador,Descripcion,Requisitos")] Vacantes vacantes)
@@ -100,6 +148,24 @@ namespace Prueba_Tecnica_Coem.Controllers
 
             var empleador = await _context.Empleadores.FirstOrDefaultAsync(e => e.IdUsuario == usuario.Id);
             return empleador?.Id;
+        }
+
+        private async Task<int?> GetDemandanteIdAsync()
+        {
+            var userName = _userManager.GetUserName(User);
+            if (string.IsNullOrEmpty(userName))
+            {
+                return null;
+            }
+
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == userName);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            var demandante = await _context.Demandantes.FirstOrDefaultAsync(e => e.IdUsuario == usuario.Id);
+            return demandante?.Id;
         }
 
         // GET: Vacantes/Edit/5

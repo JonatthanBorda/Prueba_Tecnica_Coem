@@ -83,3 +83,28 @@ body {
 .card-body{
     padding: 3rem;
 }
+
+.btn-enviada {
+    border-color: blue;
+    color: white; /* Cambia el color del texto a blanco para mejor contraste */
+    background-color: blue; /* Aplica el color al relleno */
+}
+
+.btn-vista {
+    border-color: green;
+    color: white; /* Cambia el color del texto a blanco para mejor contraste */
+    background-color: green; /* Aplica el color al relleno */
+}
+
+.btn-enproceso {
+    border-color: orange;
+    color: white; /* Cambia el color del texto a blanco para mejor contraste */
+    background-color: orange; /* Aplica el color al relleno */
+}
+
+.btn-finalizada {
+    border-color: red;
+    color: white; /* Cambia el color del texto a blanco para mejor contraste */
+    background-color: red; /* Aplica el color al relleno */
+}
+

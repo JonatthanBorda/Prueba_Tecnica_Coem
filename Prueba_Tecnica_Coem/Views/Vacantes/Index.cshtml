@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Prueba_Tecnica_Coem.Models.Vacantes>
+﻿@model IEnumerable<Prueba_Tecnica_Coem.Models.VacanteViewModel>
 
 @{
     ViewData["Title"] = "Empleos";
@@ -12,46 +12,54 @@
         <div class="col-md-12 mt-4">
             <div class="card shadow-lg">
                 <div class="card-body">
-                    <p class="mb-4">Estos son los empleos publicados por ti:</p>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Descripcion)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Requisitos)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.IdEmpleadorNavigation)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
+                    @if (Model.Any())
+                    {
+                        <p class="mb-4">Estos son los empleos publicados por ti:</p>
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Requisitos)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.IdEmpleadorNavigation.Industria)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
+                                    <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Requisitos)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Industria)</th>
+                                    <th>N° Aplicaciones</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Requisitos)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Industria)</td>
+                                        <td>
+                                            <a class="btn btn-outline-info" asp-action="VerAplicantes" asp-route-id="@item.Id" title="Ver Aplicantes">
+                                                @item.NumeroDeAplicaciones
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a> |
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="text-info" title="Detalles">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a> |
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger" title="Eliminar">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>Todavia no has publicado empleos.</p>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+

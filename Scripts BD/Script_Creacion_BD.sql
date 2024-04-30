@@ -101,3 +101,6 @@ INSERT INTO TipoUsuario (Tipo) VALUES ('Demandante'), ('Empleador');
 
 -- Tabla NivelEducativo
 INSERT INTO NivelEducativo (Nivel) VALUES ('Sin estudios formales'), ('Primaria/Bachillerato'), ('Profesional/Técnico/Tecnólogo'), ('Pregrado');
+
+-- Tabla EstadoAplicacion
+INSERT INTO EstadoAplicacion (Estado) VALUES ('Enviada'), ('Vista'), ('En proceso'), ('Finalizada');
