@@ -54,7 +54,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // POST: Empleadores/Create
-        [Authorize(Roles = "Empleador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,RazonSocial,Localizacion,Industria,NumeroEmpleados")] Empleadores empleadore)
@@ -74,7 +73,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Empleadores/Edit/5
-        [Authorize(Roles = "Empleador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,7 +92,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         // POST: Empleadores/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Empleador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,RazonSocial,Localizacion,Industria,NumeroEmpleados")] Empleadores empleadore)
@@ -129,7 +126,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Empleadores/Delete/5
-        [Authorize(Roles = "Empleador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

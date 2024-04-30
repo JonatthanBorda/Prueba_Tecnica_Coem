@@ -80,7 +80,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // POST: Demandantes/Create
-        [Authorize(Roles = "Demandante")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,Nombres,Apellidos,FechaNacimiento,Celular,IdNivelEducativo,Notas,ExperienciaAnterior")] Demandantes demandante)
@@ -101,7 +100,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Demandantes/Edit/5
-        [Authorize(Roles = "Demandante")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,7 +120,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         // POST: Demandantes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Demandante")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Nombres,Apellidos,FechaNacimiento,Celular,IdNivelEducativo,Notas,ExperienciaAnterior")] Demandantes demandante)
@@ -158,7 +155,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // GET: Demandantes/Delete/5
-        [Authorize(Roles = "Demandante")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -179,7 +175,6 @@ namespace Prueba_Tecnica_Coem.Controllers
         }
 
         // POST: Demandantes/Delete/5
-        [Authorize(Roles = "Demandante")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
