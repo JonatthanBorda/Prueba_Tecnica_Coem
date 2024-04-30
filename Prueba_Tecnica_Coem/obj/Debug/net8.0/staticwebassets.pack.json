@@ -13,6 +13,34 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_bootstrap.png",
+      "PackagePath": "staticwebassets\\images\\ico_bootstrap.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_csharp.png",
+      "PackagePath": "staticwebassets\\images\\ico_csharp.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_html.png",
+      "PackagePath": "staticwebassets\\images\\ico_html.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_js.png",
+      "PackagePath": "staticwebassets\\images\\ico_js.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_net.png",
+      "PackagePath": "staticwebassets\\images\\ico_net.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_sql.png",
+      "PackagePath": "staticwebassets\\images\\ico_sql.png"
+    },
+    {
+      "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\ico_visual.png",
+      "PackagePath": "staticwebassets\\images\\ico_visual.png"
+    },
+    {
       "Id": "C:\\Users\\stivb\\Documentos\\Controles Empresariales\\Prueba_Tecnica_Coem\\Prueba_Tecnica_Coem\\wwwroot\\images\\inicio.jpg",
       "PackagePath": "staticwebassets\\images\\inicio.jpg"
     },

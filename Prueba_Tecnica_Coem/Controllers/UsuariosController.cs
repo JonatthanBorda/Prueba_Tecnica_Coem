@@ -259,5 +259,10 @@ namespace Prueba_Tecnica_Coem.Controllers
         {
             return _context.Usuarios.Any(e => e.Email == email);
         }
+
+        public IActionResult Contacto()
+        {
+            return View();
+        }
     }
 }
